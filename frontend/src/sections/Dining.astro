@@ -1,0 +1,128 @@
+---
+import { Button } from "@/components/ui/button";
+import {
+  ArrowLeft,
+  ArrowRight,
+  UtensilsCrossed,
+  Wine,
+  ConciergeBell,
+} from "lucide-react";
+import { Image } from "astro:assets";
+import DiningImg from "../assets/dining.jpg";
+import AwardCard from "@/components/AwardCard.astro";
+---
+
+<section class="bg-muted mt-28">
+  <div class="container py-16">
+    <div class="lg:grid lg:grid-cols-2 lg:items-center lg:gap-8 mx-4">
+      <div class="mb-6 lg:mb-0">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="h-[1px] w-12 bg-muted-foreground/40"></div>
+          <span
+            class="text-xs uppercase tracking-[0.3em] font-bold text-muted-foreground/80"
+            >Gastronomía</span
+          >
+        </div>
+
+        <h2 class="text-4xl md:text-6xl mb-6 font-bold leading-[1.1]">
+          Excelencia <br />
+          <span class="text-white">Culinaria</span>
+        </h2>
+
+        <p class="text-muted-foreground text-lg text-balance max-w-xl">
+          Nuestro restaurante ofrece una jornada culinaria acompañada de platos
+          locales e internacionales preparados por los chefs más galardonados.
+        </p>
+
+        <ul class="mt-8 space-y-6">
+          <li
+            class="flex items-center group cursor-default hover:bg-white/10 hover:shadow-md hover:rounded-2xl transition-all duration-300 p-2"
+          >
+            <div
+              class="bg-primary/10 mr-4 size-12 flex items-center justify-center rounded-2xl text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:scale-110"
+            >
+              <UtensilsCrossed size={22} />
+            </div>
+            <div>
+              <h3
+                class="font-bold text-lg group-hover:text-primary transition-colors"
+              >
+                El Restaurante StayLite
+              </h3>
+              <p class="text-muted-foreground">
+                Increíble cena con vistas panorámicas
+              </p>
+            </div>
+          </li>
+          <li
+            class="flex items-center group cursor-default hover:bg-white/10 hover:shadow-md hover:rounded-2xl transition-all duration-300 p-2"
+          >
+            <div
+              class="bg-primary/10 mr-4 size-12 flex items-center justify-center rounded-2xl text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:scale-110"
+            >
+              <Wine size={22} />
+            </div>
+            <div>
+              <h3
+                class="font-bold text-lg group-hover:text-primary transition-colors"
+              >
+                Bar y Lounge
+              </h3>
+              <p class="text-muted-foreground">
+                Cócteles artesanales y ambiente sofisticado
+              </p>
+            </div>
+          </li>
+          <li
+            class="flex items-center group cursor-default hover:bg-white/10 hover:shadow-md hover:rounded-2xl transition-all duration-300 p-2"
+          >
+            <div
+              class="bg-primary/10 mr-4 size-12 flex items-center justify-center rounded-2xl text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:scale-110"
+            >
+              <ConciergeBell size={22} />
+            </div>
+            <div>
+              <h3
+                class="font-bold text-lg group-hover:text-primary transition-colors"
+              >
+                Servicio a la Habitación 24/7
+              </h3>
+              <p class="text-muted-foreground">
+                Pide lo que desees directo a tu habitación
+              </p>
+            </div>
+          </li>
+        </ul>
+
+        <a href="rooms" class="inline-block group">
+          <Button
+            className="mt-10 w-48 h-12 rounded-full flex items-center gap-2 transition-all duration-300"
+          >
+            Ver Habitaciones
+            <ArrowRight
+              className="size-5 transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </Button>
+        </a>
+      </div>
+
+      <div class="relative group overflow-hidden rounded-2xl">
+        <Image
+          src={DiningImg}
+          alt="Dining Image"
+          class="h-full w-full rounded-2xl object-cover transition-transform duration-1000 group-hover:scale-105"
+        />
+        <div
+          class="absolute bottom-6 left-6 z-30 transition-all duration-700 opacity-0 translate-y-8 group-hover:opacity-100 group-hover:translate-y-0"
+        >
+          <AwardCard />
+        </div>
+        {/* Overlay sutil para mejorar el contraste en hover */}
+        <div
+          class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-700"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

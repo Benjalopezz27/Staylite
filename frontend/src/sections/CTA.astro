@@ -1,0 +1,67 @@
+---
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from "lucide-react";
+---
+
+<section class="mt-20 container px-4">
+  <div
+    class="max-w-5xl mx-auto bg-foreground text-background rounded-[2.5rem] py-16 px-8 md:px-16 text-center shadow-2xl relative overflow-hidden group"
+  >
+    {/* Subtle Decorative element */}
+    <div
+      class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -translate-y-16 translate-x-16 transition-transform duration-700 group-hover:scale-150"
+    >
+    </div>
+
+    <div class="relative z-10">
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <div class="h-[1px] w-10 bg-background/20"></div>
+        <span
+          class="text-[10px] uppercase tracking-[0.5em] font-bold text-background/60"
+          >RESERVA TU EXPERIENCIA</span
+        >
+        <div class="h-[1px] w-10 bg-background/20"></div>
+      </div>
+
+      <h2
+        class="text-3xl md:text-5xl font-bold mb-4 tracking-tighter uppercase whitespace-pre-line leading-none"
+      >
+        Tu Estancia de Ensueño <span class="text-primary italic"
+          >Comienza Aquí</span
+        >
+      </h2>
+
+      <p
+        class="max-w-xl mx-auto text-background/70 text-base md:text-lg mb-10 text-balance"
+      >
+        Sofisticación y descanso en un solo lugar. Encuentra tu suite ideal hoy
+        mismo.
+      </p>
+
+      <div class="flex flex-col items-center gap-6">
+        <a href="rooms">
+          <Button
+            className="group relative overflow-hidden h-14 px-10 rounded-full text-base font-bold bg-background text-foreground shadow-xl border-none"
+            size={"lg"}
+          >
+            <span class="mr-8 transition-opacity duration-500 group-hover:opacity-0">
+              Reserva Ahora
+            </span>
+            <i class="absolute right-1 top-1 bottom-1 rounded-full z-10 grid w-1/4 place-items-center transition-all duration-500 bg-foreground/10 group-hover:w-[calc(100%-0.5rem)] group-active:scale-95 text-foreground">
+              <ChevronRight size={20} strokeWidth={2} aria-hidden="true" />
+            </i>
+          </Button>
+        </a>
+
+        {/* Compact Trust Markers */}
+        <div
+          class="flex items-center justify-center gap-6 text-[10px] uppercase tracking-widest text-background/40 font-bold"
+        >
+          <span>✓ Mejor precio</span>
+          <span>✓ Cancelación flexible</span>
+          <span>✓ Sin recargos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

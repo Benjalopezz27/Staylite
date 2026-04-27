@@ -1,0 +1,72 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import {
+    ChevronRight,
+} from "lucide-react";
+import { ShippingSummary } from "@/components/ShippingSummary";
+import { ShippingForm } from "@/components/ShippingForm";
+---
+
+<Layout
+    title="Datos de Contacto | StayLite"
+    description="Completa tus datos de contacto para continuar con el proceso de reserva."
+>
+    <main class="min-h-screen pt-28 pb-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="mb-10 text-center">
+                <p
+                    class="text-sm font-medium text-primary uppercase tracking-widest mb-2"
+                >
+                    Paso 2 de 3
+                </p>
+                <h1 class="text-3xl md:text-4xl font-bold mb-3">
+                    Datos de Contacto
+                </h1>
+                <p class="text-muted-foreground max-w-md mx-auto">
+                    Completa tu información personal para que podamos gestionar
+                    tu reserva correctamente.
+                </p>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="flex items-center justify-center gap-2 mb-12 text-sm">
+                <span class="flex items-center gap-1.5 text-muted-foreground">
+                    <span
+                        class="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold"
+                        >✓</span
+                    >
+                    Reserva
+                </span>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                <span class="flex items-center gap-1.5 font-semibold">
+                    <span
+                        class="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold"
+                        >2</span
+                    >
+                    Tus Datos
+                </span>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                <span class="flex items-center gap-1.5 text-muted-foreground">
+                    <span
+                        class="w-6 h-6 rounded-full border border-border flex items-center justify-center text-xs font-bold"
+                        >3</span
+                    >
+                    Pago
+                </span>
+            </div>
+
+            <div class="grid md:grid-cols-5 gap-8">
+                <!-- Resumen lateral (Componente) -->
+                <div class="md:col-span-2 order-2 md:order-1">
+                    <ShippingSummary client:load />
+                </div>
+
+                <!-- Formulario de datos (Componente) -->
+                <div class="md:col-span-3 order-1 md:order-2">
+                    <ShippingForm client:load />
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>

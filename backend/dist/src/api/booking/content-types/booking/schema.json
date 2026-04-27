@@ -1,0 +1,75 @@
+{
+    "kind": "collectionType",
+    "collectionName": "bookings",
+    "info": {
+        "singularName": "booking",
+        "pluralName": "bookings",
+        "displayName": "booking"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "checkIn": {
+            "type": "date",
+            "required": true
+        },
+        "checkOut": {
+            "type": "date",
+            "required": true,
+            "unique": false
+        },
+        "customerName": {
+            "type": "string"
+        },
+        "customerEmail": {
+            "type": "string"
+        },
+        "customerPhone": {
+            "type": "biginteger"
+        },
+        "adults": {
+            "type": "integer"
+        },
+        "childrens": {
+            "type": "integer"
+        },
+        "noOfRooms": {
+            "type": "integer"
+        },
+        "room": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::room.room"
+        },
+        "bookingStatus": {
+            "type": "enumeration",
+            "enum": [
+                "pending",
+                "confirmed",
+                "cancelled",
+                "completed"
+            ]
+        },
+        "bookingCode": {
+            "type": "string",
+            "unique": true
+        },
+        "customerCountry": {
+            "type": "string"
+        },
+        "customerCity": {
+            "type": "string"
+        },
+        "notes": {
+            "type": "text"
+        },
+        "totalPrice": {
+            "type": "decimal"
+        },
+        "stripePaymentId": {
+            "type": "text"
+        }
+    }
+}

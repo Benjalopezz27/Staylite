@@ -1,0 +1,297 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import {
+    CreditCard,
+    ShieldCheck,
+    Clock,
+    ChevronRight,
+    Lock,
+    ExternalLink,
+} from "lucide-react";
+---
+
+<Layout
+    title="Proceso de Pago | StayLite"
+    description="Completa el pago de tu reserva en StayLite Hotel de forma segura."
+>
+    <main class="min-h-screen pt-28 pb-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-10 text-center">
+                <p
+                    class="text-sm font-medium text-primary uppercase tracking-widest mb-2"
+                >
+                    Paso final
+                </p>
+                <h1 class="text-3xl md:text-4xl font-bold mb-3">
+                    Completa tu Pago
+                </h1>
+                <p class="text-muted-foreground max-w-md mx-auto">
+                    Revisa los detalles de tu reserva y procede al portal de
+                    pago seguro para confirmarla.
+                </p>
+            </div>
+
+            <div class="flex items-center justify-center gap-2 mb-12 text-sm">
+                <span class="flex items-center gap-1.5 text-muted-foreground">
+                    <span
+                        class="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold"
+                        >✓</span
+                    >
+                    Selección
+                </span>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                <span class="flex items-center gap-1.5 text-muted-foreground">
+                    <span
+                        class="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold"
+                        >✓</span
+                    >
+                    Reserva
+                </span>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                <span class="flex items-center gap-1.5 font-semibold">
+                    <span
+                        class="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold"
+                        >3</span
+                    >
+                    Pago
+                </span>
+            </div>
+
+            <div class="grid md:grid-cols-5 gap-8">
+                <div class="md:col-span-2 order-2 md:order-1">
+                    <div
+                        class="bg-card rounded-2xl border border-border p-6 sticky top-28"
+                    >
+                        <h2
+                            class="text-lg font-semibold mb-5 pb-4 border-b border-border"
+                        >
+                            Resumen de Reserva
+                        </h2>
+
+                        <div
+                            class="bg-primary/5 border border-primary/20 rounded-xl px-4 py-3 mb-6"
+                        >
+                            <p
+                                class="text-xs text-muted-foreground uppercase tracking-widest mb-0.5"
+                            >
+                                Código de Reserva
+                            </p>
+                            <p
+                                id="booking-code"
+                                class="text-lg font-bold tracking-widest text-primary"
+                            >
+                                —
+                            </p>
+                        </div>
+
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-muted-foreground"
+                                    >Habitación</span
+                                >
+                                <span
+                                    id="room-name"
+                                    class="font-medium text-right max-w-[140px] truncate"
+                                    >—</span
+                                >
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-muted-foreground"
+                                    >Check-in</span
+                                >
+                                <span id="check-in" class="font-medium">—</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-muted-foreground"
+                                    >Check-out</span
+                                >
+                                <span id="check-out" class="font-medium">—</span
+                                >
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-muted-foreground"
+                                    >Habitaciones</span
+                                >
+                                <span id="num-rooms" class="font-medium">—</span
+                                >
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-muted-foreground"
+                                    >Huéspedes</span
+                                >
+                                <span id="guests" class="font-medium">—</span>
+                            </div>
+                            <div
+                                class="pt-3 mt-3 border-t border-border flex justify-between font-semibold text-base"
+                            >
+                                <span>Total estimado</span>
+                                <span id="total-price" class="text-primary"
+                                    >—</span
+                                >
+                            </div>
+                        </div>
+
+                        <div
+                            class="mt-6 flex items-center gap-2 text-xs text-muted-foreground"
+                        >
+                            <ShieldCheck
+                                className="w-4 h-4 text-green-500 shrink-0"
+                            />
+                            Pago 100% seguro y encriptado
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-3 order-1 md:order-2">
+                    <div
+                        class="bg-card rounded-2xl border border-border p-6 md:p-10 flex flex-col items-center justify-center text-center h-full min-h-[400px]"
+                    >
+                        <div
+                            class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6"
+                        >
+                            <CreditCard className="w-8 h-8 text-primary" />
+                        </div>
+
+                        <h2 class="text-2xl font-semibold mb-3">
+                            Portal de Pago Seguro
+                        </h2>
+
+                        <p class="text-muted-foreground mb-8 max-w-sm">
+                            Serás redirigido a la plataforma encriptada de
+                            Stripe para completar tu transacción de forma
+                            segura. Aceptamos todas las tarjetas de crédito y
+                            débito.
+                        </p>
+
+                        <button
+                            id="pay-button"
+                            class="w-full max-w-sm flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-base font-semibold text-primary-foreground transition hover:bg-primary/90 active:scale-95 disabled:opacity-50"
+                        >
+                            <Lock className="w-4 h-4" />
+                            Proceder al Pago
+                            <ExternalLink className="w-4 h-4 ml-1 opacity-70" />
+                        </button>
+
+                        <p
+                            id="payment-error"
+                            class="text-sm text-red-500 mt-4 hidden"
+                        >
+                        </p>
+
+                        <p
+                            class="text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5 mt-8"
+                        >
+                            <Clock className="w-3.5 h-3.5" />
+                            Tu reserva está pendiente hasta completar el pago.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    // ── 1. Cargar el resumen del localStorage ──────────────────────────
+    const raw = localStorage.getItem("staylite_booking_summary");
+    const summary = raw ? JSON.parse(raw) : null;
+
+    function fmtDate(iso: string | undefined) {
+        if (!iso) return "—";
+        return new Date(iso).toLocaleDateString("es-AR", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+        });
+    }
+
+    if (summary) {
+        const set = (id: string, val: string) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = val;
+        };
+
+        set("booking-code", summary.bookingCode || "—");
+        set("room-name", summary.roomName || "—");
+        set("check-in", fmtDate(summary.checkIn));
+        set("check-out", fmtDate(summary.checkOut));
+        set("num-rooms", summary.noOfRooms?.toString() || "1");
+        set(
+            "guests",
+            `${summary.adults || 1} adultos${
+                summary.childrens > 0 ? `, ${summary.childrens} niños` : ""
+            }`,
+        );
+
+        const fmtPrice = (val: number | undefined) => {
+            if (val === undefined || val === null) return "—";
+            return new Intl.NumberFormat("es-AR", {
+                style: "currency",
+                currency: "USD",
+                minimumFractionDigits: 0,
+            }).format(val);
+        };
+        set("total-price", fmtPrice(summary.totalPrice));
+    } else {
+        console.warn(
+            "[checkout-payment] No se encontró el resumen de la reserva.",
+        );
+        // Opcional: window.location.href = '/rooms';
+    }
+
+    // ── 2. Lógica de redirección a Stripe ──────────────────────────────
+    const payBtn = document.getElementById("pay-button") as HTMLButtonElement;
+    const errorText = document.getElementById(
+        "payment-error",
+    ) as HTMLParagraphElement;
+
+    payBtn?.addEventListener("click", async () => {
+        if (!summary || !summary.documentId) {
+            errorText.textContent =
+                "Faltan datos de la reserva. Por favor, vuelve al paso anterior.";
+            errorText.classList.remove("hidden");
+            return;
+        }
+
+        payBtn.disabled = true;
+        payBtn.innerHTML = "Generando enlace seguro...";
+        errorText.classList.add("hidden");
+
+        try {
+            // Llamamos al endpoint de Astro que creamos en el paso anterior
+            const response = await fetch("/api/create-checkout-session", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    documentId: summary.documentId,
+                    roomName: summary.roomName || "Habitación en StayLite",
+                    totalPrice: summary.totalPrice,
+                    customerEmail: summary.customerEmail,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error || "No se pudo conectar con Stripe.",
+                );
+            }
+
+            // Redirección exitosa al Checkout de Stripe
+            window.location.href = data.url;
+        } catch (error: any) {
+            console.error("Error al iniciar el pago:", error);
+            errorText.textContent =
+                error.message ||
+                "Hubo un problema de conexión. Intenta de nuevo.";
+            errorText.classList.remove("hidden");
+
+            // Restaurar el botón en caso de error
+            payBtn.disabled = false;
+            payBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Intentar de nuevo`;
+        }
+    });
+</script>

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_room_details_amenities",
+  "info": {
+    "displayName": "Amenity",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "icon": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

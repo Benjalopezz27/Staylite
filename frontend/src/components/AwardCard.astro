@@ -1,0 +1,17 @@
+---
+import { Star } from "lucide-react";
+---
+
+<div class="bg-white/90 backdrop-blur-xl border border-white/20 p-5 rounded-2xl shadow-2xl max-w-[280px]">
+  <div class="flex gap-1 mb-2">
+    {[1, 2, 3, 4, 5].map((_) => (
+      <Star size={16} fill="#EAB308" className="text-yellow-500" />
+    ))}
+  </div>
+  <h4 class="font-bold text-gray-900 text-lg leading-tight mb-1">
+    Experiencia 5 Estrellas
+  </h4>
+  <p class="text-gray-600 text-sm leading-snug">
+    Premio a la excelencia gastronómica 2024
+  </p>
+</div>

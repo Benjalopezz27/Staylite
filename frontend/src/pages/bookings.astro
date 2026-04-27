@@ -1,0 +1,31 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import BookingsList from "@/components/BookingsList";
+---
+
+<Layout title="Mis Reservas | StayLite" description="Gestiona tus reservas en StayLite Hotel.">
+    <main class="min-h-screen pt-28 pb-20 px-4">
+        <div class="max-w-5xl mx-auto">
+            <!-- Header -->
+            <div class="mb-10">
+                <p class="text-sm font-medium text-primary uppercase tracking-widest mb-2">
+                    Mi Cuenta
+                </p>
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">Mis Reservas</h1>
+                <p class="text-muted-foreground">
+                    Aquí puedes ver el estado de todas tus reservas.
+                </p>
+            </div>
+
+            <!-- Bookings list rendered on the client -->
+            <BookingsList client:load />
+        </div>
+    </main>
+</Layout>
+
+<!-- Clear the "new booking" notification badge when the user visits this page -->
+<script>
+    localStorage.removeItem("staylite_new_booking");
+    // Notify other components (e.g. Dashboard) immediately if the page is open
+    window.dispatchEvent(new CustomEvent("staylite:booking-seen"));
+</script>

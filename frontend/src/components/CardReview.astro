@@ -1,0 +1,49 @@
+---
+import type { Review } from "@/lib/types";
+
+interface Props {
+  review: Review;
+}
+
+const { review } = Astro.props;
+
+// Generar array para las estrellas
+const stars = Array.from({ length: 5 }, (_, i) => i < review.rating);
+---
+
+<div class="bg-card border border-muted-foreground/10 rounded-2xl p-6 flex flex-col gap-6 shadow-sm hover:shadow-md transition-all duration-300">
+  <!-- Stars -->
+  <div class="flex gap-1">
+    {stars.map((filled) => (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill={filled ? "#f97316" : "none"}
+        stroke={filled ? "#f97316" : "currentColor"}
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class={filled ? "" : "text-muted-foreground/20"}
+      >
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+      </svg>
+    ))}
+  </div>
+
+  <!-- Comment -->
+  <blockquote class="text-muted-foreground text-base leading-relaxed grow italic">
+    "{review.comment}"
+  </blockquote>
+
+  <!-- Separator Line -->
+  <div class="h-[1px] bg-muted-foreground/10 w-full"></div>
+
+  <!-- Guest Footer -->
+  <div class="flex flex-col">
+    <h4 class="font-bold text-foreground text-lg">{review.user}</h4>
+    <p class="text-sm text-muted-foreground/80">{(review as any).role || "Huésped del Hotel"}</p>
+    <p class="text-xs text-muted-foreground/50 mt-1 font-medium">{review.date}</p>
+  </div>
+</div>

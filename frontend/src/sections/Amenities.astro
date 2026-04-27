@@ -1,0 +1,39 @@
+---
+import AmenitiesCard from "@/components/AmenitiesCard.astro";
+---
+
+<section class="py-24 lg:py-32">
+  <div class="container px-4">
+    <div class="max-w-[800px] mx-auto text-center mb-16">
+      <h2 class="mb-4 text-3xl font-bold md:text-4xl uppercase">
+        Servicios Premium
+      </h2>
+      <p class="md:text-xl text-muted-foreground text-balance">
+        En StayLite, cada detalle está pensado para tu bienestar. Disfruta de
+        una gama de servicios diseñados para elevar tu estancia a otro nivel.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <AmenitiesCard
+        icon="wifi"
+        name="Wi-fi Premium"
+        description="Internet rápido, gratuito y confiable en todo el Hotel. Mantente conectado en todo momento sin interrupciones."
+      />
+      <AmenitiesCard
+        icon="utensils"
+        name="Comida Gourmet"
+        description="Sabores auténticos en un cálido ambiente. La fusión perfecta entre tradición e innovación para todos los paladares."
+      />
+      <AmenitiesCard
+        icon="dumbbell"
+        name="Spa & Gimnasio"
+        description="Rejuvenece tu cuerpo y mente en nuestro lujoso Spa y activa tu cuerpo en nuestro Gimnasio completamente equipado."
+      />
+      <AmenitiesCard
+        icon="pool"
+        name="Piscina y Jacuzzi"
+        description="El corazón del hotel. Relájate en nuestra lujosa piscina, disfruta del sol y pide tu cóctel favorito sin salir del agua. "
+      />
+    </div>
+  </div>
+</section>

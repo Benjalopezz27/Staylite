@@ -1,0 +1,10 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import FilterTabsRooms from "@/components/filterTabsRooms.tsx";
+import RoomsHero from "@/components/HeroRooms.tsx";
+---
+
+<Layout>
+    <RoomsHero client:load />
+    <FilterTabsRooms client:load />
+</Layout>

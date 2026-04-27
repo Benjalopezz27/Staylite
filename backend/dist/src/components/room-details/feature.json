@@ -1,0 +1,22 @@
+{
+    "collectionName": "components_room_details_features",
+    "info": {
+        "displayName": "Feature",
+        "icon": "star"
+    },
+    "options": {},
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "icon": {
+            "type": "string",
+            "required": true
+        },
+        "value": {
+            "type": "string",
+            "required": true
+        }
+    }
+}

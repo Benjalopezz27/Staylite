@@ -1,0 +1,14 @@
+
+> stay-lite@0.0.1 dev
+> astro dev
+
+[2m14:27:20[22m [34m[@astrojs/netlify][39m Enabling sessions with Netlify Blobs
+[2m14:27:20[22m [34m[vite][39m Environment loaded
+[2m14:27:20[22m [34m[vite][39m Middleware loaded. Emulating features: aiGateway, blobs, edgeFunctions, functions, geolocation, headers, images, redirects, static.
+[2m14:27:20[22m [34m[vite][39m 💭 Linking this project to a Netlify site lets you deploy your site, use any environment variables defined on your team and site and much more. Run [96mnpx netlify init[39m to get started.
+[2m14:27:20[22m [34m[types][39m Generated [2m5ms[22m
+[2m14:27:20[22m [34m[content][39m Syncing content
+[2m14:27:21[22m [34m[content][39m Synced content
+EPERM: operation not permitted, lstat 'C:\Desarrollo\stay-lite\node_modules\.vite\deps\astro___axobject-query.js'
+  [1mStack trace:[22m
+[2m[22m

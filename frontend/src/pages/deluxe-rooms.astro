@@ -1,0 +1,33 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+import { Image } from "astro:assets";
+import DeluxeImg from "../assets/deluxe.webp";
+import RoomListing from "@/components/RoomListing.tsx";
+import { getCategory } from "@/services/categoryData";
+
+const category = await getCategory("deluxe-rooms");
+---
+
+<Layout title="Habitaciones Deluxe">
+  <div class="relative z-40">
+    <div class="absolute left-0 top-0 h-full w-full bg-black opacity-80"></div>
+    <div class="container flex items-start justify-center flex-col h-[70vh]">
+      <div class="z-40 max-w-175 mx-auto text-white">
+        <h2
+          class="mb-1 text-4xl font-bold leading-[1.2] md:text-5xl lg:text-6xl"
+        >
+          Habitaciones Deluxe
+        </h2>
+      </div>
+      <Image
+        src={DeluxeImg}
+        class="absolute left-0 -z-10 h-full w-full object-cover"
+        alt="habitaciones deluxe"
+      />
+    </div>
+  </div>
+  <div class="container pt-28">
+    <RoomListing client:load categorySlug={category?.slug} />
+  </div>
+</Layout>

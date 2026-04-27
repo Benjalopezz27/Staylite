@@ -1,0 +1,74 @@
+{
+    "kind": "collectionType",
+    "collectionName": "rooms",
+    "info": {
+        "singularName": "room",
+        "pluralName": "rooms",
+        "displayName": "Room",
+        "description": "Hotel rooms"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "slug": {
+            "type": "uid",
+            "targetField": "name"
+        },
+        "description": {
+            "type": "richtext",
+            "required": true
+        },
+        "price": {
+            "type": "decimal",
+            "required": true
+        },
+        "discount": {
+            "type": "integer",
+            "default": 0
+        },
+        "image": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ]
+        },
+        "thumbnails": {
+            "type": "media",
+            "multiple": true,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ]
+        },
+        "category": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::category.category",
+            "inversedBy": "rooms"
+        },
+        "amenities": {
+            "type": "component",
+            "component": "room-details.amenity",
+            "repeatable": true
+        },
+        "features": {
+            "type": "component",
+            "component": "room-details.feature",
+            "repeatable": true
+        },
+        "bookings": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::booking.booking",
+            "mappedBy": "room"
+        }
+    }
+}

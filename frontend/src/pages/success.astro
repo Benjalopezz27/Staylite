@@ -1,0 +1,153 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Stripe from "stripe";
+import { CheckCircle2, Calendar, ArrowRight } from "lucide-react";
+
+export const prerender = false;
+
+let error = null;
+let isSuccess = false;
+
+try {
+    const sessionId = Astro.url.searchParams.get("session_id");
+
+    if (!sessionId) {
+        throw new Error("ID de sesión no proporcionado.");
+    }
+
+    // Inicializamos Stripe con la clave secreta
+    const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY as string, {
+        apiVersion: "2026-04-22.dahlia" as any,
+    });
+
+    // 1. Verificar la sesión en Stripe
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    if (session.payment_status === "paid") {
+        const documentId = session.metadata?.strapi_document_id;
+
+        if (!documentId) {
+            throw new Error("No se encontró el ID de la reserva en la sesión.");
+        }
+
+        // 2. Actualizar el estado en Strapi
+        const strapiUrl =
+            import.meta.env.PUBLIC_STRAPI_URL || "http://127.0.0.1:1337";
+        const strapiToken = import.meta.env.STRAPI_SERVER_TOKEN;
+
+        const updateResponse = await fetch(
+            `${strapiUrl}/api/bookings/confirm-payment`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${strapiToken}`,
+                },
+                body: JSON.stringify({ documentId }),
+            },
+        );
+
+        if (!updateResponse.ok) {
+            console.error(
+                "Error al actualizar en Strapi:",
+                await updateResponse.text(),
+            );
+        } else {
+            isSuccess = true;
+        }
+    } else {
+        throw new Error("El pago no ha sido completado.");
+    }
+} catch (err: any) {
+    console.error("Error en success.astro:", err);
+    error = err.message || "Ocurrió un error al verificar el pago.";
+}
+---
+
+<Layout
+    title="Pago Exitoso | StayLite"
+    description="Confirmación de pago de tu reserva."
+>
+    <main
+        class="min-h-screen pt-32 pb-20 px-4 flex flex-col items-center justify-center"
+    >
+        <div
+            class="max-w-md w-full bg-card rounded-2xl border border-border p-8 text-center shadow-lg"
+        >
+            {
+                isSuccess && !error ? (
+                    <>
+                        <div class="mx-auto w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mb-6 animate-in zoom-in-50 duration-500">
+                            <CheckCircle2 className="w-10 h-10" />
+                        </div>
+
+                        <h1 class="text-3xl font-bold mb-3 text-foreground">
+                            ¡Pago Exitoso!
+                        </h1>
+                        <p class="text-muted-foreground mb-8">
+                            Tu reserva ha sido confirmada y asegurada. Hemos
+                            enviado los detalles a tu correo electrónico.
+                        </p>
+
+                        <div class="space-y-3 mb-8 text-left bg-muted/30 p-5 rounded-xl border border-border">
+                            <div class="flex items-center gap-3 text-sm">
+                                <CheckCircle2 className="w-4 h-4 text-green-500" />
+                                <span>Reserva garantizada</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm">
+                                <Calendar className="w-4 h-4 text-primary" />
+                                <span>Te esperamos en StayLite</span>
+                            </div>
+                        </div>
+
+                        <a
+                            href="/bookings"
+                            class="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 active:scale-95"
+                        >
+                            Ver Mis Reservas
+                            <ArrowRight className="w-4 h-4" />
+                        </a>
+
+                        <script>
+                            localStorage.removeItem("staylite_booking_summary");
+                        </script>
+                    </>
+                ) : (
+                    <>
+                        <div class="mx-auto w-20 h-20 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mb-6">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="40"
+                                height="40"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <>
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="m15 9-6 6" />
+                                    <path d="m9 9 6 6" />
+                                </>
+                            </svg>
+                        </div>
+
+                        <h1 class="text-2xl font-bold mb-3 text-foreground">
+                            Error en la Confirmación
+                        </h1>
+                        <p class="text-muted-foreground mb-8">{error}</p>
+
+                        <a
+                            href="/checkout-payment"
+                            class="w-full flex items-center justify-center gap-2 rounded-xl border border-border bg-transparent px-6 py-3.5 text-sm font-semibold text-foreground transition hover:bg-muted active:scale-95"
+                        >
+                            Volver al Checkout
+                        </a>
+                    </>
+                )
+            }
+        </div>
+    </main>
+</Layout>

@@ -1,0 +1,82 @@
+---
+import { Button } from "./ui/button";
+---
+
+<footer class="bg-secondary relative text-foreground pb-8 mt-20 pt-20">
+  <div class="container">
+    <div class="md:grid md:grid-cols-2 md:gap-4 lg:mb-12 lg:grid-cols-3">
+      <!-- row 1 -->
+      <div class="mb-8 md:mb-0 md:justify-self-start">
+        <h3 class="font-medium text-xl mb-4 capitalize">Hotel StayLite</h3>
+        <p class="mb-4 text-pretty">
+          El hotel StayLite es un lujoso hotel localizado en el corazón de la
+          ciudad. Ofrecemos un largo abanico de habitaciones y suites.
+        </p>
+        <a
+          href=""
+          class="hover:text-primary transition-colors duration-300 ease-in-out"
+        >
+          <Button>Reservar Ahora</Button>
+        </a>
+      </div>
+      <!-- row 2 -->
+      <div class="mb-8 md:mb-0 md:justify-self-end lg:translate-x-12">
+        <h3 class="capitalize mb-4 font-medium text-xl">menú rapido</h3>
+
+        <li class="mb-2 list-none">
+          <a
+            href="/rooms"
+            class="hover:text-primary transition-colors duration-300 ease-in-out"
+            >Habitaciones</a
+          >
+        </li>
+        <li class="mb-2 list-none">
+          <a
+            href="/restaurant"
+            class="hover:text-primary transition-colors duration-300 ease-in-out"
+            >Restaurantes</a
+          >
+        </li>
+        <li class="list-none">
+          <a
+            href="#/contact"
+            class="hover:text-primary transition-colors duration-300 ease-in-out"
+            >Contacto</a
+          >
+        </li>
+      </div>
+      <!-- row 3 -->
+      <div class="mb-8 md:mb-0 lg:justify-self-center lg:translate-x-24">
+        <h3 class="capitalize mb-4 font-medium text-xl">Otros links</h3>
+
+        <li class="mb-2 list-none">
+          <a
+            href="/about"
+            class="hover:text-primary transition-colors duration-300 ease-in-out"
+            >Nosotros</a
+          >
+        </li>
+        <li class="mb-2 list-none">
+          <a
+            href="/gallery"
+            class="hover:text-primary transition-colors duration-300 ease-in-out"
+            >Galería</a
+          >
+        </li>
+        <li class="list-none">
+          <a
+            href="/policies"
+            class="hover:text-primary transition-colors duration-300 ease-in-out"
+            >Politicas</a
+          >
+        </li>
+      </div>
+    </div>
+
+    <div class="pt-12 text-center">
+      <p class="text-sm">
+        Copyright &copy; {new Date().getFullYear()} Todos los derechos reservados.
+      </p>
+    </div>
+  </div>
+</footer>
