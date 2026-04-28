@@ -1,31 +1,45 @@
 import path from 'path';
+const { parse } = require('pg-connection-string');
 
 export default ({ env }) => {
-  // 1. Forzamos a minúsculas. Si en Railway escribiste "Postgres" o "POSTGRES", esto evitará que falle.
-  const client = env('DATABASE_CLIENT', 'sqlite').toLowerCase();
+  const rawClient = env('DATABASE_CLIENT', 'sqlite').toLowerCase();
+  const isPostgres = rawClient === 'postgres' || rawClient === 'postgresql';
 
-  console.log("---> Arrancando base de datos con cliente:", client);
-
-  if (client === 'postgres') {
-    return {
+  if (isPostgres) {
+    const databaseUrl = env('DATABASE_URL');
+    
+    const config = {
+      client: 'postgres',
       connection: {
-        client: 'postgres',
-        connection: {
-          connectionString: env('DATABASE_URL'),
-          // 2. Activamos SSL automáticamente para la nube, permitiendo los certificados de Railway
-          ssl: env.bool('DATABASE_SSL', true) ? {
-            rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', false),
-          } : false,
-        },
-        pool: {
-          min: env.int('DATABASE_POOL_MIN', 2),
-          max: env.int('DATABASE_POOL_MAX', 10)
-        },
+        host: env('DATABASE_HOST', 'localhost'),
+        port: env.int('DATABASE_PORT', 5432),
+        database: env('DATABASE_NAME', 'strapi'),
+        user: env('DATABASE_USERNAME', 'strapi'),
+        password: env('DATABASE_PASSWORD', 'strapi'),
+        ssl: env.bool('DATABASE_SSL', true) ? {
+          rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', false),
+        } : false,
+      },
+      pool: {
+        min: env.int('DATABASE_POOL_MIN', 2),
+        max: env.int('DATABASE_POOL_MAX', 10)
       },
     };
+
+    if (databaseUrl) {
+      const parsedConfig = parse(databaseUrl);
+      Object.assign(config.connection, {
+        host: parsedConfig.host || config.connection.host,
+        port: parsedConfig.port || config.connection.port,
+        database: parsedConfig.database || config.connection.database,
+        user: parsedConfig.user || config.connection.user,
+        password: parsedConfig.password || config.connection.password,
+      });
+    }
+
+    return { connection: config };
   }
 
-  // 3. Fallback a SQLite para tu entorno local de desarrollo
   return {
     connection: {
       client: 'sqlite',
