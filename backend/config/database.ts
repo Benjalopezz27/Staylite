@@ -1,38 +1,49 @@
 import path from 'path';
+import { parse } from 'pg-connection-string';
 
 export default ({ env }) => {
-  const client = env('DATABASE_CLIENT', 'sqlite').toLowerCase();
+  const client = env('DATABASE_CLIENT', 'sqlite');
 
-  if (client === 'postgres' || client === 'postgresql' || env('DATABASE_URL')) {
-    return {
+  const connections = {
+    sqlite: {
       connection: {
-        client: 'postgres',
-        connection: {
-          connectionString: env('DATABASE_URL'),
-          host: env('DATABASE_HOST', 'localhost'),
-          port: env.int('DATABASE_PORT', 5432),
-          database: env('DATABASE_NAME', 'strapi'),
-          user: env('DATABASE_USERNAME', 'strapi'),
-          password: env('DATABASE_PASSWORD', 'strapi'),
-          ssl: env.bool('DATABASE_SSL', true) ? {
-            rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', false),
-          } : false,
-        },
-        pool: {
-          min: env.int('DATABASE_POOL_MIN', 2),
-          max: env.int('DATABASE_POOL_MAX', 10)
-        },
+        filename: path.join(__dirname, '..', '..', '.tmp/data.db'),
+      },
+      useNullAsDefault: true,
+    },
+  };
+
+  if (client === 'postgres') {
+    const databaseUrl = env('DATABASE_URL');
+
+    const config = (databaseUrl ? parse(databaseUrl) : {}) as any;
+
+    connections['postgres'] = {
+      connection: {
+        host: config.host || env('DATABASE_HOST', '127.0.0.1'),
+        port: config.port || env.int('DATABASE_PORT', 5432),
+        database: config.database || env('DATABASE_NAME', 'strapi'),
+        user: config.user || env('DATABASE_USERNAME', 'strapi'),
+        password: config.password || env('DATABASE_PASSWORD', 'strapi'),
+        ssl: env.bool('DATABASE_SSL', true) ? { rejectUnauthorized: false } : false,
+      },
+      pool: {
+        min: 0,
+        max: 5,
+        acquireTimeoutMillis: 60000,
+        createTimeoutMillis: 30000,
+        idleTimeoutMillis: 30000,
+        reapIntervalMillis: 1000,
+        createRetryIntervalMillis: 100,
       },
     };
   }
 
   return {
     connection: {
-      client: 'sqlite',
-      connection: {
-        filename: path.join(__dirname, '..', '..', env('DATABASE_FILENAME', '.tmp/data.db')),
-      },
-      useNullAsDefault: true,
+      client,
+      ...connections[client],
+      acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
     },
   };
 };
