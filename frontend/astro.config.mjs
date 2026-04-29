@@ -3,9 +3,12 @@ import { defineConfig, envField } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import clerk from '@clerk/astro';
+import node from '@astrojs/node';
 // https://astro.build/config
 // @ts-ignore
 export default defineConfig({
+  output: 'server',
+  adapter: node({ mode: 'standalone' }),
   vite: {
     // @ts-ignore
     plugins: [tailwindcss()],

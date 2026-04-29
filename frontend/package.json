@@ -6,10 +6,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "start": "HOST=0.0.0.0 node dist/server/entry.mjs",
     "astro": "astro"
   },
   "dependencies": {
     "@ark-ui/react": "^5.36.1",
+    "@astrojs/node": "^9.5.5",
     "@astrojs/react": "^5.0.0",
     "@clerk/astro": "^2.16.7",
     "@fontsource/poppins": "^5.2.7",
