@@ -22,7 +22,7 @@ RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install --only=produc
 COPY --from=build /opt/app/dist ./dist
 COPY --from=build /opt/app/public ./public
 COPY --from=build /opt/app/package.json ./package.json
-
+COPY --from=build /opt/app/config ./config
 ENV PATH /opt/app/node_modules/.bin:$PATH
 
 RUN chown -R 1000:1000 /opt/app
