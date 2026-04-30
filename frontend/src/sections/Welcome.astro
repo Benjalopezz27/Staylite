@@ -1,5 +1,33 @@
 ---
 import ReviewList from "@/components/ReviewList";
+import fetchApi from "@/services/strapi";
+import type { Review } from "@/lib/types";
+
+// 1. Hacemos el fetch en el servidor de forma segura (sin problemas de CORS ni variables)
+let mappedReviews: Review[] = [];
+
+try {
+  const response = await fetchApi({
+    endpoint: "reviews",
+    query: { populate: "*" },
+  });
+
+  // 2. Mapeamos la estructura de Strapi (v4 o v5) aquí mismo en el backend
+  const dataArray = response?.data || response || [];
+
+  mappedReviews = dataArray.map((item: any) => {
+    const attributes = item.attributes || item;
+    return {
+      user: attributes.user,
+      rating: attributes.rating || 5,
+      comment: attributes.comment,
+      role: attributes.role,
+      date: attributes.date,
+    };
+  });
+} catch (error) {
+  console.error("Error fetching reviews from Strapi on the server:", error);
+}
 ---
 
 <section class="pt-10 lg:pt-28 border border-b-muted-foreground/10 pb-16">
@@ -14,7 +42,10 @@ import ReviewList from "@/components/ReviewList";
       </p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-10">
-      <ReviewList client:visible />
+      {
+        /* 3. Pasamos los datos puros a React. Ya no hay tiempos de carga en el cliente */
+      }
+      <ReviewList reviews={mappedReviews} client:load />
     </div>
   </div>
 </section>

@@ -1,55 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import type { Review } from '@/lib/types';
-import fetchApi from '@/services/strapi';
 
-export default function ReviewList() {
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
+// Definimos la interfaz para las props que recibe desde Astro
+interface ReviewListProps {
+  reviews: Review[];
+}
 
-  useEffect(() => {
-    async function loadReviews() {
-      try {
-        const response = await fetchApi({
-          endpoint: 'reviews',
-          query: { populate: '*' },
-        });
+export default function ReviewList({ reviews }: ReviewListProps) {
+  // Ya no hay estado de "loading". Cuando React se hidrata, los datos ya están en el HTML.
 
-        // Ensure we properly map Strapi response structure. 
-        // In Strapi v5, data usually comes as response.data, and attributes are flattened by default unless modified.
-        // We handle both v4 (item.attributes) and v5 (item directly) formats for robustness.
-        const dataArray = response?.data || response || [];
-        
-        const mappedReviews: Review[] = dataArray.map((item: any) => {
-          const attributes = item.attributes || item;
-          return {
-            user: attributes.user,
-            rating: attributes.rating || 5,
-            comment: attributes.comment,
-            role: attributes.role,
-            date: attributes.date,
-          };
-        });
-
-        setReviews(mappedReviews);
-      } catch (error) {
-        console.error("Error fetching reviews from Strapi:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadReviews();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20 w-full col-span-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
-
-  if (reviews.length === 0) {
+  if (!reviews || reviews.length === 0) {
     return (
       <p className="text-muted-foreground col-span-full text-center py-10">
         No hay reseñas disponibles en este momento.
