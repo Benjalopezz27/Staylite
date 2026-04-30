@@ -39,9 +39,11 @@ export default async function fetchApi({
         endpoint = endpoint.slice(1);
     }
 
-    const STRAPI_URL: string = import.meta.env.PUBLIC_STRAPI_URL;
+    // Captura tanto el prefijo de Vite como el de Astro para evitar conflictos
+    const STRAPI_URL: string | undefined = import.meta.env.VITE_STRAPI_URL || import.meta.env.PUBLIC_STRAPI_URL;
+
     if (!STRAPI_URL) {
-        throw new Error("❌ VITE_STRAPI_URL no está definida en el archivo .env");
+        throw new Error("❌ STRAPI_URL sigue vacía. El build no leyó el archivo .env dinámico.");
     }
 
     const url = new URL(`${STRAPI_URL}/api/${endpoint}`);
@@ -57,7 +59,7 @@ export default async function fetchApi({
 
         // Si no se provee un Authorization header en options, usamos el token público por defecto
         const hasAuth = options.headers && (
-            (options.headers as Record<string, string>)["Authorization"] || 
+            (options.headers as Record<string, string>)["Authorization"] ||
             (options.headers as any).get?.("Authorization")
         );
 
@@ -110,7 +112,7 @@ export default async function fetchApi({
         } else {
             console.error(`❌ Error en fetchApi:`, error);
         }
-        
+
         // Mantener compatibilidad: devolver array vacío si se esperaba lista, o null si no.
         return wrappedByList ? [] : null;
     }
