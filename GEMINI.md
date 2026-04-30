@@ -28,6 +28,7 @@ StayLite is a premium room booking platform.
 - [x] Connect Astro frontend to Strapi API (`strapi.ts`, `roomsData.ts`, `categoryData.ts`, `reviewData.ts`).
 - [x] Fetch and display room details dynamically from Strapi (including IDs for booking).
 - [x] Implement booking logic with Strapi/Clerk/Stripe (Frontend form, service integration, and checkout flow completed).
+- [ ] Implement Stripe Webhook for payment confirmation (`webhook.ts`).
 - [ ] Refine "About" page.
 
 ## 🗂️ Project Structure

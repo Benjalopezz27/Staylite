@@ -29,6 +29,11 @@ try {
         if (!documentId) {
             throw new Error("No se encontró el ID de la reserva en la sesión.");
         }
+        
+        // Extraemos el payment_intent (string)
+        const paymentIntent = typeof session.payment_intent === 'string' 
+            ? session.payment_intent 
+            : session.payment_intent?.id;
 
         // 2. Actualizar el estado en Strapi
         const strapiUrl =
@@ -43,7 +48,10 @@ try {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${strapiToken}`,
                 },
-                body: JSON.stringify({ documentId }),
+                body: JSON.stringify({ 
+                    documentId,
+                    stripePaymentId: paymentIntent
+                }),
             },
         );
 

@@ -86,17 +86,23 @@ export default factories.createCoreController('api::booking.booking', ({ strapi 
    * Called securely from the Astro backend after Stripe verification.
    */
   async confirmPayment(ctx) {
-    const { documentId } = ctx.request.body as Record<string, any>;
+    const { documentId, stripePaymentId } = ctx.request.body as Record<string, any>;
 
     if (!documentId) {
       return ctx.badRequest('documentId is required');
     }
 
+    const updateData: Record<string, any> = {
+      bookingStatus: 'confirmed',
+    };
+
+    if (stripePaymentId) {
+      updateData.stripePaymentId = stripePaymentId;
+    }
+
     const updated = await strapi.documents('api::booking.booking').update({
       documentId,
-      data: {
-        bookingStatus: 'confirmed',
-      } as any,
+      data: updateData as any,
       status: 'published',
     });
 

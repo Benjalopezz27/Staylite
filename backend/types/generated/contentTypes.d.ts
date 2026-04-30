@@ -438,7 +438,7 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     singularName: 'booking';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     adults: Schema.Attribute.Integer;
@@ -467,7 +467,7 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     notes: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     room: Schema.Attribute.Relation<'manyToOne', 'api::room.room'>;
-    stripePaymentId: Schema.Attribute.Text;
+    stripePaymentId: Schema.Attribute.String;
     totalPrice: Schema.Attribute.Decimal;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

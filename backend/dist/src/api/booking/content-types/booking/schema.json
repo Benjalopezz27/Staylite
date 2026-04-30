@@ -7,7 +7,7 @@
         "displayName": "booking"
     },
     "options": {
-        "draftAndPublish": true
+        "draftAndPublish": false
     },
     "pluginOptions": {},
     "attributes": {
@@ -69,7 +69,7 @@
             "type": "decimal"
         },
         "stripePaymentId": {
-            "type": "text"
+            "type": "string"
         }
     }
 }
