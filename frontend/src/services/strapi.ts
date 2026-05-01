@@ -27,6 +27,36 @@ function serializeQuery(params: URLSearchParams, obj: Record<string, any>, prefi
     }
 }
 
+// --- HELPER DE ENTORNOS (BLINDAJE SSR Y CLIENTE) ---
+const getEnvVariables = () => {
+    let url = "";
+    let token = "";
+
+    // 1. Entorno de Node.js (Servidor / Railway SSR)
+    if (typeof process !== 'undefined' && process.env) {
+        url = process.env.PUBLIC_STRAPI_URL || process.env.VITE_STRAPI_URL || "";
+        token = process.env.PUBLIC_STRAPI_API_TOKEN || "";
+    }
+
+    // 2. Entorno Vite/Astro (Cliente / Navegador / Build Estático)
+    // Usamos if separados para evitar que Vite crashee al hacer el "buscar y reemplazar"
+    if (!url && typeof import.meta !== 'undefined' && import.meta.env) {
+        if (import.meta.env.PUBLIC_STRAPI_URL) url = import.meta.env.PUBLIC_STRAPI_URL as string;
+        else if (import.meta.env.VITE_STRAPI_URL) url = import.meta.env.VITE_STRAPI_URL as string;
+    }
+
+    if (!token && typeof import.meta !== 'undefined' && import.meta.env) {
+        if (import.meta.env.PUBLIC_STRAPI_API_TOKEN) token = import.meta.env.PUBLIC_STRAPI_API_TOKEN as string;
+    }
+
+    // 3. FALLBACKS DE SEGURIDAD ABSOLUTA
+    // Si Railway o Vite fallan al inyectar, usamos la URL real para no bloquear el build
+    return {
+        STRAPI_URL: url || "https://backend-production-9fac.up.railway.app",
+        STRAPI_TOKEN: token
+    };
+};
+
 export default async function fetchApi({
     endpoint,
     query,
@@ -39,11 +69,11 @@ export default async function fetchApi({
         endpoint = endpoint.slice(1);
     }
 
-    // Captura tanto el prefijo de Vite como el de Astro para evitar conflictos
-    const STRAPI_URL: string | undefined = import.meta.env.VITE_STRAPI_URL || import.meta.env.PUBLIC_STRAPI_URL;
+    // Obtenemos las variables blindadas
+    const { STRAPI_URL, STRAPI_TOKEN } = getEnvVariables();
 
-    if (!STRAPI_URL) {
-        throw new Error("❌ STRAPI_URL sigue vacía. El build no leyó el archivo .env dinámico.");
+    if (!STRAPI_TOKEN) {
+        console.warn("⚠️ Advertencia: PUBLIC_STRAPI_API_TOKEN no fue encontrado.");
     }
 
     const url = new URL(`${STRAPI_URL}/api/${endpoint}`);
@@ -57,14 +87,14 @@ export default async function fetchApi({
             "Content-Type": "application/json",
         };
 
-        // Si no se provee un Authorization header en options, usamos el token público por defecto
+        // Si no se provee un Authorization header en options, usamos el token de entorno
         const hasAuth = options.headers && (
             (options.headers as Record<string, string>)["Authorization"] ||
             (options.headers as any).get?.("Authorization")
         );
 
-        if (!hasAuth) {
-            defaultHeaders["Authorization"] = `Bearer ${import.meta.env.PUBLIC_STRAPI_API_TOKEN}`;
+        if (!hasAuth && STRAPI_TOKEN) {
+            defaultHeaders["Authorization"] = `Bearer ${STRAPI_TOKEN}`;
         }
 
         const res = await fetch(url.toString(), {
