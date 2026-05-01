@@ -13,9 +13,13 @@ export const POST: APIRoute = async ({ request, url }) => {
         const body = await request.json();
         const { documentId, roomName, totalPrice, customerEmail } = body;
 
+        if (!totalPrice || isNaN(Number(totalPrice))) {
+            throw new Error("El precio total de la reserva no es válido.");
+        }
+
         // Stripe procesa los pagos en la unidad más pequeña de la moneda (centavos)
         // Por lo tanto, $150.00 USD se envían como 15000
-        const unitAmount = Math.round(totalPrice * 100);
+        const unitAmount = Math.round(Number(totalPrice) * 100);
 
         // Obtenemos el origen de forma dinámica para que funcione en local y producción
         const origin = request.headers.get('origin') || url.origin;

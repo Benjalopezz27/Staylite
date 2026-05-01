@@ -22,6 +22,7 @@ export interface BookingSummary {
     childrens: number;
     bookingStatus: 'pending' | 'confirmed' | 'cancelled' | 'completed';
     notes?: string | null;
+    totalPrice: number;
     createdAt: string;
     room: BookingRoom | null;
 }
@@ -109,6 +110,7 @@ export function BookingCard({ booking }: { booking: BookingSummary }) {
             childrens: booking.childrens,
             customerName: booking.customerName,
             customerEmail: booking.customerEmail,
+            totalPrice: booking.totalPrice,
         }));
         window.location.href = '/reservation-shipping';
     };
