@@ -4,12 +4,25 @@ import type { APIRoute } from 'astro';
 // necesitas esta línea para que el endpoint funcione dinámicamente y no falle.
 export const prerender = false;
 
+// --- HELPER DE ENTORNOS (BLINDAJE SSR) ---
+// Astro API Routes corren en Node.js, por lo que process.env es más confiable que import.meta.env aquí.
+const getEnvVars = () => {
+    const url = (typeof process !== 'undefined' && process.env.PUBLIC_STRAPI_URL)
+        ? process.env.PUBLIC_STRAPI_URL
+        : (import.meta.env.PUBLIC_STRAPI_URL || 'https://backend-production-9fac.up.railway.app'); // Fallback directo a prod
+
+    const token = (typeof process !== 'undefined' && process.env.STRAPI_SERVER_TOKEN)
+        ? process.env.STRAPI_SERVER_TOKEN
+        : import.meta.env.STRAPI_SERVER_TOKEN;
+
+    return { url, token };
+};
+
 export const POST: APIRoute = async ({ request, locals }) => {
     try {
         console.log("--> 1. Petición recibida en API Route de Astro");
 
         // 2. Verificamos la sesión de Clerk
-        // En algunas versiones de @clerk/astro, locals.auth() puede no existir si falta el middleware
         const auth = locals.auth ? locals.auth() : null;
         const userId = auth?.userId;
 
@@ -22,12 +35,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
         const body = await request.json();
         console.log("--> 3. Datos recibidos de React:", body);
 
-        const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://127.0.0.1:1337';
-        const strapiToken = import.meta.env.STRAPI_SERVER_TOKEN;
+        // Usamos nuestras variables blindadas
+        const { url: strapiUrl, token: strapiToken } = getEnvVars();
 
         // 3. Validamos que el Token de servidor exista
         if (!strapiToken) {
-            console.error("--> ❌ ERROR FATAL: STRAPI_SERVER_TOKEN no está definido en el archivo .env");
+            console.error("--> ❌ ERROR FATAL: STRAPI_SERVER_TOKEN no está definido en las variables de entorno");
             return new Response(JSON.stringify({ error: "Falta configuración en el servidor" }), { status: 500 });
         }
 
@@ -56,7 +69,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         return new Response(JSON.stringify(data), { status: 200 });
 
     } catch (error: any) {
-        // 4. Atrapamos el error 500 y lo mostramos en la terminal de Astro
+        // 4. Atrapamos el error 500 y lo mostramos en la terminal
         console.error("--> 🔥 ERROR 500 (CRASHEO DEL SERVIDOR):", error);
         return new Response(JSON.stringify({
             error: "Error interno del servidor",
