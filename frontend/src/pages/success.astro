@@ -37,7 +37,7 @@ try {
 
         // 2. Actualizar el estado en Strapi
         const strapiUrl =
-            import.meta.env.PUBLIC_STRAPI_URL || "http://127.0.0.1:1337";
+            import.meta.env.PUBLIC_STRAPI_URL || "https://backend-production-9fac.up.railway.app";
         const strapiToken = import.meta.env.STRAPI_SERVER_TOKEN;
 
         const updateResponse = await fetch(

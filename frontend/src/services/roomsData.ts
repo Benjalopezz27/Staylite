@@ -13,7 +13,7 @@ function mapStrapiRoom(item: any): Room {
     // In v5 flattened, category might be directly on attributes
     const categoryData = attributes.category?.data?.attributes || attributes.category || {};
 
-    const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://127.0.0.1:1337';
+    const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'https://backend-production-9fac.up.railway.app';
     const formatUrl = (url: string) => {
         if (!url) return '';
         return url.startsWith('http') ? url : `${strapiUrl}${url}`;

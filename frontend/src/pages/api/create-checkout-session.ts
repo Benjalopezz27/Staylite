@@ -17,6 +17,13 @@ export const POST: APIRoute = async ({ request, url }) => {
         // Por lo tanto, $150.00 USD se envían como 15000
         const unitAmount = Math.round(totalPrice * 100);
 
+        // Obtenemos el origen de forma dinámica para que funcione en local y producción
+        const origin = request.headers.get('origin') || url.origin;
+
+        // Redirecciones post-pago
+        const successUrl = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
+        const cancelUrl = `${origin}/checkout-payment?canceled=true`;
+
         // Creamos la sesión de pago en Stripe
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -41,9 +48,8 @@ export const POST: APIRoute = async ({ request, url }) => {
             metadata: {
                 strapi_document_id: documentId,
             },
-            // Redirecciones post-pago
-            success_url: `${url.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${url.origin}/checkout-payment?canceled=true`,
+            success_url: successUrl,
+            cancel_url: cancelUrl,
         });
 
         return new Response(JSON.stringify({ url: session.url }), { status: 200 });

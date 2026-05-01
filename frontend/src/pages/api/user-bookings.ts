@@ -34,7 +34,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
             // Email extraction failed — will fetch all with userId fallback
         }
 
-        const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://127.0.0.1:1337';
+        const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'https://backend-production-9fac.up.railway.app';
         const strapiToken = import.meta.env.STRAPI_SERVER_TOKEN;
 
         if (!strapiToken) {
@@ -73,7 +73,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
         const bookings = rawBookings.map((item: any) => {
             const b = item.attributes || item;
             const roomNode = b.room?.data?.attributes || b.room || null;
-            const strapiUrlBase = import.meta.env.PUBLIC_STRAPI_URL || 'http://127.0.0.1:1337';
+            const strapiUrlBase = import.meta.env.PUBLIC_STRAPI_URL || 'https://backend-production-9fac.up.railway.app';
             const roomImageUrl = roomNode?.image?.data?.attributes?.url || roomNode?.image?.url || null;
 
             return {

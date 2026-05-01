@@ -12,8 +12,10 @@ export const RoomCard = ({ room }: { room: Room }) => {
   // Helper para extraer la URL de la imagen (Strapi vs import estático)
   const getImageUrl = (img: any) => {
     if (!img) return '';
-    if (typeof img === 'string') return img.startsWith('http') ? img : `http://127.0.0.1:1337${img}`;
-    if (img.url) return img.url.startsWith('http') ? img.url : `http://127.0.0.1:1337${img.url}`;
+    const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'https://backend-production-9fac.up.railway.app';
+    
+    if (typeof img === 'string') return img.startsWith('http') ? img : `${strapiUrl}${img}`;
+    if (img.url) return img.url.startsWith('http') ? img.url : `${strapiUrl}${img.url}`;
     if (img.src) return img.src; // Fallback for old static imports
     return '';
   };

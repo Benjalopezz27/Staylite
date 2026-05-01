@@ -2,6 +2,19 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
+// --- HELPER DE ENTORNOS (BLINDAJE SSR) ---
+const getEnvVars = () => {
+    const url = (typeof process !== 'undefined' && process.env.PUBLIC_STRAPI_URL)
+        ? process.env.PUBLIC_STRAPI_URL
+        : (import.meta.env.PUBLIC_STRAPI_URL || 'https://backend-production-9fac.up.railway.app'); // Fallback directo a prod
+
+    const token = (typeof process !== 'undefined' && process.env.STRAPI_SERVER_TOKEN)
+        ? process.env.STRAPI_SERVER_TOKEN
+        : import.meta.env.STRAPI_SERVER_TOKEN;
+
+    return { url, token };
+};
+
 /**
  * PATCH /api/booking-update
  * Updates customerPhone, notes, customerCountry and customerCity on an existing booking.
@@ -22,8 +35,8 @@ export const PATCH: APIRoute = async ({ request, locals }) => {
             return new Response(JSON.stringify({ error: 'documentId requerido' }), { status: 400 });
         }
 
-        const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://127.0.0.1:1337';
-        const strapiToken = import.meta.env.STRAPI_SERVER_TOKEN;
+        // Usamos nuestras variables blindadas
+        const { url: strapiUrl, token: strapiToken } = getEnvVars();
 
         if (!strapiToken) {
             return new Response(JSON.stringify({ error: 'Falta configuración del servidor' }), { status: 500 });
