@@ -26,6 +26,8 @@
     "@sanity/astro": "^3.2.11",
     "@sanity/client": "^7.17.0",
     "@sanity/vision": "^5.13.0",
+    "@stripe/react-stripe-js": "^6.3.0",
+    "@stripe/stripe-js": "^9.4.0",
     "@tailwindcss/vite": "^4.1.17",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
