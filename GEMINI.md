@@ -31,7 +31,11 @@ StayLite is a premium room booking platform.
 - [x] Implement Stripe Webhook for payment confirmation (`webhook.ts`).
 - [x] Implement User Bookings dashboard (`user-bookings.ts`, `bookings.astro`).
 - [x] Implement Booking Cancellation logic (`cancel-booking.ts`).
+- [x] Implement User Account Settings dashboard (Profile, Security, Billing, Notifications).
 - [] Refine "About" page.
+
+## 📓 Session Compact
+- **2026-05-04**: Initialized project memory and audited filesystem. Fixed React `useContext` null error in `account.astro` by adding `client:load` and refactoring `ProfileSettings.tsx` to use `@clerk/astro/client` stores (avoiding version conflicts). Installed Stripe frontend SDKs (`@stripe/stripe-js`, `@stripe/react-stripe-js`) for the Billing settings. Implemented a comprehensive Account dashboard with multiple tabs and deep Clerk/Stripe integration.
 
 ## 🗂️ Project Structure
 - `/frontend`: Astro application.
